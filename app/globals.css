@@ -3,3 +3,10 @@ body {
   direction: rtl;
   text-align: right;
 }
+@theme {
+  --color-black-200: #a0a0a0;
+  --color-black-500: #303030;
+  --color-black-900: #141414;
+  --color-icon-red: #e13333;
+  --color-white-2: #fcfcfc;
+}
