@@ -2,7 +2,7 @@ import Accordion from "../components/Accordion";
 
 const FaqSection = () => {
   return (
-    <div className="grid grid-cols-3 w-full min-h-screen px-32 pt-20">
+    <div className="flex flex-col md:grid md:grid-cols-3 w-full min-h-screen px-10 md:px-32 pt-20">
       <div className="col-span-1 flex flex-col p-4 text-right">
         <h1 className="text-header font-bold text-black-900 mb-4">FAQ</h1>
         <h2 className="text-2xl font-bold text-black-500 mb-2">

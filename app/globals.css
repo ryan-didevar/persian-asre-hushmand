@@ -6,6 +6,7 @@ body {
 @theme {
   /* color */
   --color-black-200: #a0a0a0;
+  --color-black-400: #595959;
   --color-black-500: #303030;
   --color-black-900: #141414;
   --color-icon-red: #e13333;

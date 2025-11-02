@@ -75,15 +75,34 @@ const SliderSection = () => {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      className="relative w-full h-full flex items-center justify-center"
     >
       <Swiper
-        spaceBetween={10}
-        slidesPerView={4}
+        spaceBetween={30}
+        slidesPerView={1}
         modules={[Autoplay, Navigation]}
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
           pauseOnMouseEnter: hover,
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          800: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          1110: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          1400: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+          },
         }}
         navigation={{
           prevEl: `#${prevButtonId}`, // Use CSS selector format to reference the ID

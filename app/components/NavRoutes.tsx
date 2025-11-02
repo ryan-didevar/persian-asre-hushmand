@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GiHamburgerMenu } from "react-icons/gi";
 const navLinks = [
   { name: "خانه", href: "" },
   { name: "طراحی سایت", href: "design" },
@@ -17,8 +18,8 @@ const navLinks = [
 const NavRoutes = () => {
   const path = usePathname();
   return (
-    <div className="flex items-center space-x-6">
-      <div className="hidden sm:flex sm:items-center sm:space-x-4">
+    <div className="flex order-1 md:order-2 items-center space-x-6">
+      <div className="hidden md:flex md:items-center md:space-x-4">
         {navLinks.map((link) => (
           <Link
             key={link.name}
@@ -36,6 +37,7 @@ const NavRoutes = () => {
           </Link>
         ))}
       </div>
+      <GiHamburgerMenu className="md:hidden text-2xl text-gray-700" />
     </div>
   );
 };
