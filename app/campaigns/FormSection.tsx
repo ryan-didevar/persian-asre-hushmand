@@ -3,11 +3,11 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { LuPhone } from "react-icons/lu";
 import { CiMail } from "react-icons/ci";
-import InputField from "./InputField";
-import CheckBox from "./CheckBox";
+import InputField from "../components/InputField";
+import CheckBox from "../components/CheckBox";
 import { FormDataSchema, LoginFormSchema } from "../schemas/formAuthority";
 import { zodResolver } from "@hookform/resolvers/zod";
-import TextArea from "./TextArea";
+import TextArea from "../components/TextArea";
 
 interface Service {
   label: string;

@@ -1,4 +1,5 @@
-import FormSection from "../components/FormSection";
+import FaqSection from "./FaqSection";
+import FormSection from "./FormSection";
 import MainContainer from "./MainContainer";
 import SliderSection from "./SliderSection";
 
@@ -17,6 +18,7 @@ const Campings = () => {
         </div>
       </div>
       <FormSection />
+      <FaqSection />
     </div>
   );
 };
