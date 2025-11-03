@@ -9,10 +9,6 @@ import { FormDataSchema, LoginFormSchema } from "../schemas/formAuthority";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextArea from "../components/TextArea";
 
-interface Service {
-  label: string;
-  value: string;
-}
 const FormSection = () => {
   const { register, handleSubmit, reset, control } = useForm<FormDataSchema>({
     resolver: zodResolver(LoginFormSchema),
@@ -86,13 +82,23 @@ const FormSection = () => {
               role="group"
               aria-label="انتخاب سرویس"
             >
-              {serviceOptions.map((option) => (
-                <CheckBox
-                  key={option.value}
-                  label={option.label}
-                  value={option.value}
-                />
-              ))}
+              <Controller
+                control={control}
+                name="services"
+                render={({ field }) => (
+                  <>
+                    {serviceOptions.map((option) => (
+                      <CheckBox
+                        key={option.value}
+                        label={option.label}
+                        value={option.value}
+                        checkedValues={field.value}
+                        onChange={field.onChange}
+                      />
+                    ))}
+                  </>
+                )}
+              />
             </div>
           </section>
 
