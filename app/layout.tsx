@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Sans_Arabic } from "next/font/google";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import "./globals.css";
+import Navbar from "./components/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const notoSansArabic = Noto_Sans_Arabic({
+  subsets: ["arabic"], // Crucial for Arabic characters
+  display: "swap", // Recommended for performance
+  weight: ["400", "700"], // Specify the weights you plan to use
+  variable: "--font-noto-arabic", // Define a CSS variable name
 });
 
 export const metadata: Metadata = {
@@ -19,15 +19,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
+  const direction = locale === "ar" || locale === "fa" ? "rtl" : "ltr";
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang={locale} dir={direction}>
+      <body className={`${notoSansArabic.variable} antialiased`}>
+        <Navbar />
+        <main>{children}</main>
       </body>
     </html>
   );
