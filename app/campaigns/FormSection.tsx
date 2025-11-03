@@ -1,29 +1,72 @@
 "use client";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { LuPhone } from "react-icons/lu";
 import { CiMail } from "react-icons/ci";
 import InputField from "../components/InputField";
 import CheckBox from "../components/CheckBox";
-import { FormDataSchema, LoginFormSchema } from "../schemas/formAuthority";
-import { zodResolver } from "@hookform/resolvers/zod";
 import TextArea from "../components/TextArea";
-
+import { useCallback, useState } from "react";
+export interface FormSectionProps {
+  name: string;
+  email: string;
+  phone: string;
+  services: string[];
+  description: string;
+}
+const serviceOptions = [
+  { label: "خدمات سئو", value: "seo" },
+  { label: "طراحی وب سایت", value: "design" },
+  { label: "اتوماسیون و بازاریابی", value: "marketing" },
+  { label: "کمپین‌های بازاریابی و تبلیغاتی", value: "campaigns" },
+  { label: "خدمات تولید محتوا", value: "production" },
+];
 const FormSection = () => {
-  const { register, handleSubmit, reset, control } = useForm<FormDataSchema>({
-    resolver: zodResolver(LoginFormSchema),
-    defaultValues: { name: "", email: "", phone: "" },
+  const [formData, setFormData] = useState<FormSectionProps>({
+    name: "",
+    email: "",
+    phone: "",
+    services: [],
+    description: "",
   });
-  const serviceOptions = [
-    { label: "خدمات سئو", value: "seo" },
-    { label: "طراحی وب سایت", value: "design" },
-    { label: "اتوماسیون و بازاریابی", value: "marketing" },
-    { label: "کمپین‌های بازاریابی و تبلیغاتی", value: "campaigns" },
-    { label: "خدمات تولید محتوا", value: "production" },
-  ];
-  const onSubmit: SubmitHandler<FormDataSchema> = (data) => {
-    console.log(data);
-    reset();
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    },
+    []
+  );
+  const handleCheckboxChange = useCallback((value: string) => {
+    setFormData((prev) => {
+      const currentServices = prev.services;
+      if ((currentServices || []).includes(value)) {
+        return {
+          ...prev,
+          services: (currentServices || []).filter(
+            (service) => service !== value
+          ),
+        };
+      } else {
+        return {
+          ...prev,
+          services: [...(currentServices || []), value],
+        };
+      }
+    });
+  }, []);
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("FORM SUBMITTED:", formData);
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      services: [],
+      description: "",
+    });
   };
   return (
     <div className="min-h-screen bg-gray-50 flex w-full items-center justify-center p-4">
@@ -41,7 +84,7 @@ const FormSection = () => {
 
         {/* Form Container */}
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={onSubmit}
           className="space-y-8 lg:mx-32 p-10 bg-white border border-gray-200 rounded-lg"
         >
           {/* Row 1: Name, Email, Phone - using flex for responsive layout */}
@@ -51,24 +94,27 @@ const FormSection = () => {
               placeholder="نام و نام خانوادگی"
               icon={HiOutlineUserCircle}
               type="text"
-              inputLabel="name"
-              register={register}
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
             />
             <InputField
               label="آدرس ایمیل خود را وارد کنید"
               placeholder="مثلا email@mail.com"
               icon={CiMail}
               type="email"
-              inputLabel="email"
-              register={register}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
             />
             <InputField
               label="شماره تماس خود را وارد کنید"
               placeholder="مثلا091212345678"
               icon={LuPhone}
               type="tel"
-              inputLabel="phone"
-              register={register}
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
             />
           </div>
 
@@ -82,27 +128,19 @@ const FormSection = () => {
               role="group"
               aria-label="انتخاب سرویس"
             >
-              <Controller
-                control={control}
-                name="services"
-                render={({ field }) => (
-                  <>
-                    {serviceOptions.map((option) => (
-                      <CheckBox
-                        key={option.value}
-                        label={option.label}
-                        value={option.value}
-                        checkedValues={field.value}
-                        onChange={field.onChange}
-                      />
-                    ))}
-                  </>
-                )}
-              />
+              {serviceOptions.map((option) => (
+                <CheckBox
+                  key={option.value}
+                  label={option.label}
+                  value={option.value}
+                  checkedValues={formData.services.includes(option.value)}
+                  onChange={handleCheckboxChange}
+                />
+              ))}
             </div>
           </section>
 
-          <TextArea register={register} />
+          <TextArea value={formData.description} onChange={handleChange} />
 
           {/* Submit Button */}
           <div className="flex justify-center pt-4">

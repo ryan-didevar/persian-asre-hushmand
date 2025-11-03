@@ -1,13 +1,13 @@
-import { UseFormRegister } from "react-hook-form";
-import { FormDataSchema } from "../schemas/formAuthority";
+import { FormSectionProps } from "../campaigns/FormSection";
 
 interface InputFieldProps {
   label: string;
   placeholder: string;
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   type?: string;
-  inputLabel: keyof FormDataSchema;
-  register: UseFormRegister<FormDataSchema>;
+  name: keyof FormSectionProps; // Explicitly using keys of FormSectionProps for type safety
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputField = ({
@@ -15,8 +15,9 @@ const InputField = ({
   placeholder,
   icon: Icon,
   type = "text",
-  inputLabel,
-  register,
+  name,
+  value,
+  onChange,
 }: InputFieldProps) => {
   return (
     <div className="flex-1 min-w-[250px] relative">
@@ -28,7 +29,10 @@ const InputField = ({
           type={type}
           id={label}
           placeholder={placeholder}
-          {...register(inputLabel)}
+          onChange={onChange}
+          name={name}
+          value={value}
+          required
           className="w-full text-right py-3 px-12 border border-gray-200 rounded-2xl text-xs text-black-900 placeholder-gray-700"
         />
         {Icon && (
